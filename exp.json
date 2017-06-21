@@ -1,0 +1,40 @@
+{
+  "name": "Food @ Gate",
+  "description": "No description",
+  "slug": "fag-react-native",
+  "privacy": "unlisted",
+  "sdkVersion": "17.0.0",
+  "version": "1.0.0",
+  "orientation": "portrait",
+  "primaryColor": "#cccccc",
+  "icon": "https://foodatgate-77f82.firebaseapp.com/img/app-icon.png",
+  "notification": {
+    "icon": "https://foodatgate-77f82.firebaseapp.com/img/app-icon.png",
+  },
+  "loading": {
+    "icon": "https://foodatgate-77f82.firebaseapp.com/img/app-icon.png",
+    "hideExponentText": false
+  },
+  "packagerOpts": {
+    "assetExts": ["ttf"]
+  },
+  "ios": {
+    "bundleIdentifier": "com.fag",
+    "supportsTablet": true
+  },
+  "android": {
+     "package": "com.fag"
+   },
+   "hooks": {
+    "postPublish": [
+      {
+        "file": "sentry-expo/upload-sourcemaps",
+        "config": {
+          "organization": "fag",
+          "project": "fag-react-native",
+          "authToken": "86b18cbd7eea442a8ef2612876b2abea4748a5c707b04de899c53898ff523735"
+        }
+      }
+    ]
+  }
+}

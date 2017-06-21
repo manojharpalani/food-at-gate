@@ -1,0 +1,33 @@
+{
+  "name": "fag-react-native",
+  "version": "0.0.0",
+  "description": "Hello Expo!",
+  "author": null,
+  "main": "main.js",
+  "scripts": {
+    "test": "node node_modules/jest/bin/jest.js"
+  },
+  "jest": {
+    "preset": "jest-expo"
+  },
+  "dependencies": {
+    "@expo/ex-navigation": "~3.0.0",
+    "@expo/samples": "~1.0.3",
+    "apsl-react-native-button": "^3.0.2",
+    "expo": "17.0.0",
+    "firebase": "^4.1.2",
+    "hashmap": "^2.1.0",
+    "native-base": "^2.1.5",
+    "react": "16.0.0-alpha.6",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-17.0.0.tar.gz",
+    "react-native-textinput-effects": "^0.3.1",
+    "react-navigation": "^1.0.0-beta.11",
+    "react-redux": "^5.0.5",
+    "sentry-cli-binary": "^1.13.3",
+    "sentry-expo": "^1.0.2",
+    "sort-by": "^1.2.0"
+  },
+  "devDependencies": {
+    "jest-expo": "~1.0.1"
+  }
+}
