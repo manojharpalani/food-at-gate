@@ -1,34 +1,27 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, Button } from 'react-native';
-import Router from '../navigation/Router';
+import {
+  Text,
+  View,
+  Button
+} from 'react-native';
+import { FontAwesome as Icon } from '@expo/vector-icons';
 
 export default class CartScreen extends React.Component {
-  static route = {
-    navigationBar: {
-      title: 'Cart',
-    },
-  };
-
-  _goHome = () => {
-    this.props.navigator.push('home');
+  static navigationOptions = {
+    tabBarLabel: 'Cart',
+    tabBarIcon: () => (<Icon name="shopping-cart" size={24} color="white" />)
   }
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={this.props.route.getContentContainerStyle()}>
-
-        <Text> Cart screen. </Text>
-        <Button onPress={this._goHome} title='Home'/>
-      </ScrollView>
+      <View>
+        <Text>User Cart!</Text>
+        <Button
+          onPress={() => navigate('Home')}
+          title="Home"
+        />
+      </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 15,
-  },
-});

@@ -1,7 +1,4 @@
-/**
- * @class LoginScreen
- */
-
+import React from 'react';
 import {
     AppRegistry,
     Text,
@@ -10,122 +7,87 @@ import {
     dismissKeyboard,
     TouchableWithoutFeedback
 } from "react-native";
-
-import React, {Component} from "react";
-import firebase from "firebase";
 import Button from "apsl-react-native-button";
-import FontAwesomeIcon from "react-native-vector-icons/FontAwesome";
-import {Sae} from "react-native-textinput-effects";
+import { FontAwesome as Icon } from '@expo/vector-icons';
 import DismissKeyboard from "dismissKeyboard";
+import {Sae} from "react-native-textinput-effects";
 import CommonStyles from "../css/CommonStyles";
-import Router from '../navigation/Router';
-const Environment = require('../common/Environment');
 const logger = require('../common/Logger');
+import { connect } from 'react-redux';
+import { login, signUp, demoLogin } from '../actions/LoginActions';
 
-export default class LoginScreen extends Component {
+class LoginScreen extends React.Component {
 
-    state = {
-      email: '',
-      password: '',
-      response: '',
-    };
+  constructor(props) {
+      super(props);
 
-    onChangeEmail = (email) => this.setState({email});
+      this.state = {
+          email: "",
+          password: "",
+          response: "",
+          authenicated: false
+      };
+  }
 
-    onChangePassword = (password) => this.setState({password});
+  static navigationOptions = {
+    title: 'Login',
+  };
 
-    updateResponse = (response) => this.setState({response});
-
-    onSubmitLogin = () => {
-      DismissKeyboard();
-      const {onSubmitLogin} = this.props;
-      const {email} = this.state;
-      const {password} = this.state;
-      if (!email || !password) {
-        return;
-      }
-      onSubmitLogin(email, password);
-      this.setState({
-        email: '',
-        password: '',
-        response: '',
-      });
+  render() {
+    const { navigate } = this.props.navigation;
+    if (this.props.auth.user !== null) {
+      setTimeout(() => {navigate('Main')}, 300);
     }
-
-    onSubmitCreateAccount = () => {
-      DismissKeyboard();
-      const {onSubmitCreateAccount} = this.props;
-      const {email} = this.state;
-      const {password} = this.state;
-      if (!email || !password) {
-        return;
-      }
-      onSubmitCreateAccount(email, password);
-      this.setState({
-        email: '',
-        password: '',
-        response: '',
-      });
-    }
-
-    onSubmitDemo = () => {
-      DismissKeyboard();
-      this.setState({
-        email: 'demo@foodatgate.com',
-        password: 'demo123',
-        response: 'Logging in with demo account!',
-      });
-      setTimeout(() => {this.onSubmitLogin}, 300);
-    }
-
-    render() {
-        return (
-            <TouchableWithoutFeedback onPress={() => {DismissKeyboard()}}>
-                <View style={CommonStyles.container}>
-                    <View style={styles.formGroup}>
-                        <Text style={styles.title}>Food @ Gate</Text>
-                        <Sae
-                            label={"Email Address"}
-                            labelStyle={{ color: "black" }}
-                            inputStyle={{ color: "black" }}
-                            iconClass={FontAwesomeIcon}
-                            iconName={"pencil"}
-                            iconColor={"black"}
-                            onChangeText={this.onChangeEmail}
-                            keyboardType="email-address"
-                            autoCapitalize="none"
-                            inputStyle={{ color: "black" }}
-                        />
-                        <Sae
-                            label={"Password"}
-                            labelStyle={{ color: "black" }}
-                            iconClass={FontAwesomeIcon}
-                            iconName={"key"}
-                            iconColor={"black"}
-                            onChangeText={this.onChangePassword}
-                            password={true}
-                            autoCapitalize="none"
-                            inputStyle={{ color: "black" }}
-                        />
-                        <View style={styles.submit}>
-                            <Button onPress={this.onSubmitCreateAccount} style={styles.buttons} textStyle={{fontSize: 18}}>
-                                Signup
-                            </Button>
-                            <Button onPress={this.onSubmitLogin} style={styles.buttons} textStyle={{fontSize: 18}}>
-                                Login
-                            </Button>
-                            <Button onPress={this.onSubmitDemo} style={styles.buttons} textStyle={{fontSize: 18}}>
-                                Demo
-                            </Button>
-                        </View>
-                    </View>
-                    <View>
-                        <Text style={styles.response}>{this.state.response}</Text>
-                    </View>
-                </View>
-            </TouchableWithoutFeedback>
-        );
-    }
+    return (
+      <TouchableWithoutFeedback onPress={() => {DismissKeyboard()}}>
+          <View style={CommonStyles.container}>
+              <View style={styles.formGroup}>
+              <Text style={styles.title}>Food @ Gate</Text>
+              <Sae
+                  label={"Email Address"}
+                  labelStyle={{ color: "black" }}
+                  inputStyle={{ color: "black" }}
+                  iconClass={Icon}
+                  iconName={"pencil"}
+                  iconColor={"black"}
+                  onChangeText={(email) => this.setState({email})}
+                  keyboardType="email-address"
+                  autoCapitalize="none"
+                  inputStyle={{ color: "black" }}
+              />
+              <Sae
+                  label={"Password"}
+                  labelStyle={{ color: "black" }}
+                  iconClass={Icon}
+                  iconName={"key"}
+                  iconColor={"black"}
+                  onChangeText={(password) => this.setState({password})}
+                  password={true}
+                  autoCapitalize="none"
+                  inputStyle={{ color: "black" }}
+              />
+              <View style={styles.submit}>
+                  <Button onPress={() => {this.props.login(this.state.email, this.state.password)}} style={styles.buttons} textStyle={{fontSize: 18}}>
+                      Login
+                  </Button>
+                  <Button onPress={() => {this.props.signUp(this.state.email, this.state.password)}} style={styles.buttons} textStyle={{fontSize: 18}}>
+                      Signup
+                  </Button>
+                  <Button onPress={() => {this.props.demoLogin()}} style={styles.buttons} textStyle={{fontSize: 18}}>
+                      Demo
+                  </Button>
+              </View>
+              </View>
+              <View>
+                {
+                  this.props.auth.isAuthenticating && <Text style={styles.response}>Logging In ...</Text>
+                }
+                <Text style={styles.response}>{this.props.auth.authResponse}</Text>
+              </View>
+          </View>
+      </TouchableWithoutFeedback>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
@@ -147,3 +109,22 @@ const styles = StyleSheet.create({
         padding: 50
     }
 });
+
+function mapStateToProps (state) {
+  return {
+    auth: state.auth
+  }
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    login: (email, password) => dispatch(login(email, password)),
+    signUp: (email, password) => dispatch(signUp(email, password)),
+    demoLogin: () => dispatch(demoLogin())
+  }
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginScreen)

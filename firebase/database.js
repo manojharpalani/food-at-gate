@@ -2,8 +2,8 @@
  * @class Database
  */
 
-import * as firebase from "firebase";
-import { User } from "../model/User";
+import * as firebase from 'firebase';
+import { User } from '../model/User';
 import { UserProfile } from "../model/UserProfile";
 import { Airport } from "../model/Airport";
 import { Terminal } from "../model/Terminal";
@@ -16,10 +16,11 @@ import { Cart } from "../model/Cart";
 import { CartInfo } from "../model/CartInfo";
 import { CartItem } from "../model/CartItem";
 import { Order } from "../model/Order";
-import { OrderInfo } from "../model/OrderInfo";
+import { OrderInfo } from '../model/OrderInfo';
 
 const logger = require('../common/Logger');
 const sortBy = require('sort-by');
+
 class Database {
 
     /**

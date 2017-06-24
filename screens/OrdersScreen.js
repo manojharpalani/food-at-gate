@@ -1,29 +1,27 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text } from 'react-native';
+import {
+  Text,
+  View,
+  Button
+} from 'react-native';
+import { FontAwesome as Icon } from '@expo/vector-icons';
 
 export default class OrdersScreen extends React.Component {
-  static route = {
-    navigationBar: {
-      title: 'Orders',
-    },
-  };
+  static navigationOptions = {
+    tabBarLabel: 'Orders',
+    tabBarIcon: () => (<Icon name="list" size={24} color="white" />)
+  }
 
   render() {
+    const { navigate } = this.props.navigation;
     return (
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={this.props.route.getContentContainerStyle()}>
-
-        <Text> Orders view. </Text>
-
-      </ScrollView>
+      <View>
+        <Text>User Orders!</Text>
+        <Button
+          onPress={() => navigate('Home')}
+          title="Home"
+        />
+      </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 15,
-  },
-});

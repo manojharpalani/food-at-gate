@@ -8,19 +8,6 @@ const firebaseConfig = {
   messagingSenderId: "439766210032"
 };
 
-const routes = {
-    Splash: "Splash",
-    Search: "Search",
-    Results: "Results",
-    Vendor: "Vendor",
-    Cart: "Cart",
-    Checkout: "Checkout",
-    Confirmation: "Confirmation",
-    Login: "Login",
-    Profile: "Profile",
-    Orders: "Orders"
-};
-
 const Environment = {
   googleApiKey: 'AIzaSyClGlMUq7VVpOltAzd3RgPBON1RuLMdVHM',
   logLevel: "DEBUG", //RAW, DEBUG, INFO

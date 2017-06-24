@@ -3,7 +3,6 @@ import {
   Alert,
 } from 'react-native';
 import Database from "../firebase/database";
-import { CustomFooterTab } from "./CustomFooterTab";
 import { Container, Content, H1, H2, H3, Text, Button, Icon, Picker } from "native-base";
 import { styles} from '../css/Styles';
 
@@ -212,7 +211,6 @@ export default class SearchActivity extends Component {
               <Text> Next </Text>
           </Button>
         </Content>
-        <CustomFooterTab tab={Environment.Routes.Search} navigator={this.props.navigator}/>
         </Container>
     );
   }

@@ -1,27 +1,23 @@
 import Expo from 'expo';
 import React from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
-import { NavigationContext, NavigationProvider, StackNavigation } from '@expo/ex-navigation';
+import { Platform, StatusBar, StyleSheet, View, Text } from 'react-native';
+
 import { FontAwesome } from '@expo/vector-icons';
-
-import Router from './navigation/Router';
 import Store from './state/Store';
-
+import { Provider } from 'react-redux'
+import { connect } from 'react-redux'
 import cacheAssetsAsync from './utilities/cacheAssetsAsync';
 import Logger from './common/Logger';
 import Environment from './common/Environment';
 import FirebaseProvider from "./firebase/firebase";
+import AppContainer from './containers/AppContainer';
+import { authSuccess } from './actions/LoginActions';
 import firebase from "firebase";
 
-const navigationContext = new NavigationContext({
-  router: Router,
-  store: Store,
-});
+class RootContainer extends React.Component {
 
-class AppContainer extends React.Component {
   state = {
-    appIsReady: false,
-    user: null
+    appIsReady: false
   };
 
   componentWillMount() {
@@ -31,10 +27,11 @@ class AppContainer extends React.Component {
   async _authenticate() {
     Logger.debug("Setting up listener for authenticating user.");
     firebase.auth().onAuthStateChanged((user) => {
-      Logger.debug("Authenticate called");
       if (user) {
-        Logger.debug("User successfully authenicated, Switching view to search");
-        this.setState({user});
+        Logger.debug("User successfully authenicated, Set user in state to switch view directly to main");
+        Store.dispatch(authSuccess(user, 'Logged In!!'));
+      } else {
+        Logger.debug("User not authenicated, Switching view to Login");
       }
     });
   }
@@ -45,7 +42,7 @@ class AppContainer extends React.Component {
       Logger.init();
       // Init Firebase
       FirebaseProvider.initialise();
-      // Authenticate User
+      // Listen to auth updates
       this._authenticate();
       // Cache assets - fonts, images etc
       await cacheAssetsAsync({
@@ -64,26 +61,15 @@ class AppContainer extends React.Component {
         'There was an error initializing the app (see: main.js), perhaps due to a ' +
           'network timeout, so we skipped caching. Reload the app to try again.'
       + e);
-      console.log(e.message);
+      Logger.log(e.message);
     }
   }
 
   render() {
     if (this.state.appIsReady) {
-      let initScreen = this.state.user ? 'home' : 'login';
       return (
         <View style={styles.container}>
-          <Provider store={Store}>
-            <NavigationProvider context={navigationContext}>
-              <StackNavigation
-                id="root"
-                initialRoute={initScreen}
-              />
-            </NavigationProvider>
-          </Provider>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          {Platform.OS === 'android' &&
-            <View style={styles.statusBarUnderlay} />}
+            <AppContainer/>
         </View>
       );
     } else {
@@ -103,4 +89,4 @@ const styles = StyleSheet.create({
   },
 });
 
-Expo.registerRootComponent(AppContainer);
+Expo.registerRootComponent(RootContainer);

@@ -1,4 +1,0 @@
-class RestaurantCard extends Component {
-
-
-}

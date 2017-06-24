@@ -7,7 +7,7 @@ const logPrefix = "FOODATGATE-LOG-";
  * Initialize Sentry logger
  **/
  function init() {
-   console.log("Initializing Sentry : " + Environment.sentryDNS);
+   debug("Initializing Sentry : " + Environment.sentryDNS);
    Sentry.config(Environment.sentryDNS).install();
  }
 
@@ -20,14 +20,14 @@ const logPrefix = "FOODATGATE-LOG-";
  **/
 function log(level, message) {
   if (Environment.logLevel == "RAW") {
-    console.log(logPrefix + " : " + message);
+    console.log(logPrefix + level +  " : " + message);
   } else if (Environment.logLevel == "ERROR" && level == "ERROR") {
-    console.log(logPrefix + " : " + message);
+    console.log(logPrefix + level +  " : " + message);
     Sentry.captureMessage(message);
   } else if (Environment.logLevel == "INFO" && level == "INFO") {
-    console.log(logPrefix + " : " + message);
+    console.log(logPrefix + level +  " : " + message);
   } else if (Environment.logLevel == "DEBUG" && (level == "DEBUG" || level == "INFO")) {
-    console.log(logPrefix + " : " + message);
+    console.log(logPrefix + level +  " : " + message);
   }
 }
 

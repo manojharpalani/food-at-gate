@@ -1,18 +1,7 @@
-import { createNavigationEnabledStore, NavigationReducer } from '@expo/ex-navigation';
-import { combineReducers, createStore } from 'redux';
-import {fagRedux} from './fagRedux';
+import { createStore, applyMiddleware } from 'redux'
+import reducer from '../reducers'
+import thunk from 'redux-thunk'
 
-const createStoreWithNavigation = createNavigationEnabledStore({
-  createStore,
-  navigationStateKey: 'navigation',
-});
-
-const store = createStoreWithNavigation(
-  /* combineReducers and your normal create store things here! */
-  combineReducers(fagRedux, {
-    navigation: NavigationReducer,
-    // other reducers
-  })
-);
+const store = createStore(reducer, applyMiddleware(thunk))
 
 export default store;
