@@ -18,6 +18,6 @@ export default class CheckoutScreen extends React.Component {
         title="Back to search"
       />
       </View>
-    )
+    );
   }
 }
