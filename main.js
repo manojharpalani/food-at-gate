@@ -11,7 +11,7 @@ import Logger from './common/Logger';
 import Environment from './common/Environment';
 import FirebaseProvider from "./firebase/firebase";
 import AppContainer from './containers/AppContainer';
-import { authSuccess } from './actions/LoginActions';
+import { authSuccess, loadAirportsFromDB } from './actions';
 import firebase from "firebase";
 
 class RootContainer extends React.Component {
@@ -21,10 +21,10 @@ class RootContainer extends React.Component {
   };
 
   componentWillMount() {
-    this._initialize();
+    this.initialize();
   }
 
-  async _authenticate() {
+  async authenticate() {
     Logger.debug("Setting up listener for authenticating user.");
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -36,17 +36,24 @@ class RootContainer extends React.Component {
     });
   }
 
-  async _initialize() {
+  loadAirportsFromDB() {
+    Logger.debug("Load airports from DB.");
+    Store.dispatch(loadAirportsFromDB());
+  }
+
+  async initialize() {
     try {
       //Init Syntry logger
       Logger.init();
       // Init Firebase
       FirebaseProvider.initialise();
       // Listen to auth updates
-      this._authenticate();
+      this.authenticate();
+      // Load Airports supported
+      this.loadAirportsFromDB();
       // Cache assets - fonts, images etc
       await cacheAssetsAsync({
-        images: [require('./assets/images/expo-wordmark.png')],
+        images: [require('./assets/icons/app-icon.png')],
         fonts: [
           FontAwesome.font,
           { 'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
@@ -58,9 +65,9 @@ class RootContainer extends React.Component {
       });
     } catch (e) {
       Logger.error(
-        'There was an error initializing the app (see: main.js), perhaps due to a ' +
-          'network timeout, so we skipped caching. Reload the app to try again.'
-      + e);
+        `${'There was an error initializing the app (see: main.js), perhaps due to a ' +
+          'network timeout, so we skipped caching. Reload the app to try again.'}${
+       e}`);
       Logger.log(e.message);
     }
   }
@@ -69,12 +76,11 @@ class RootContainer extends React.Component {
     if (this.state.appIsReady) {
       return (
         <View style={styles.container}>
-            <AppContainer/>
+            <AppContainer />
         </View>
       );
-    } else {
-      return <Expo.AppLoading />;
     }
+    return <Expo.AppLoading />;
   }
 }
 

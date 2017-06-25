@@ -12,7 +12,6 @@ const Environment = {
   googleApiKey: 'AIzaSyClGlMUq7VVpOltAzd3RgPBON1RuLMdVHM',
   logLevel: "DEBUG", //RAW, DEBUG, INFO
   firebaseConfig: firebaseConfig,
-  Routes: routes,
   sentryDNS: 'https://4f59b4e78142429886745f75fd469769:51efd4f8edbc486da0330e5b2804e138@sentry.io/181859'
 };
 

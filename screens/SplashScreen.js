@@ -16,12 +16,15 @@ const logger = require('../common/Logger');
 import { styles} from '../css/Styles';
 
 export default class SplashScreen extends Component {
+  static navigationOptions = {
+    header: null
+  }
 
   constructor(props) {
     super(props);
     const { navigate } = this.props.navigation;
     // Set timeout on splash screen
-    setTimeout(() => {navigate('Login')}, 800);
+    setTimeout(() => {navigate('Login')}, 1000);
   }
 
   render() {

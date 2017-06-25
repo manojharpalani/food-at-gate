@@ -1,18 +1,20 @@
 import React from 'react';
-import { Provider, connect } from 'react-redux'
+import { Provider, connect } from 'react-redux';
 import { addNavigationHelpers } from 'react-navigation';
+import Expo from 'expo';
+import { View, Platform } from 'react-native';
 import store from '../state/Store';
 import { AppNavigator } from '../navigators/AppNavigator';
-import Expo from 'expo';
-import { View } from 'react-native';
 
 class AppContainer extends React.Component {
   render() {
     return (
-      <AppNavigator navigation={addNavigationHelpers({
+      <AppNavigator
+        navigation={addNavigationHelpers({
         dispatch: this.props.dispatch,
         state: this.props.nav,
-      })}/>
+      })}
+      />
     );
   }
 }
@@ -29,7 +31,10 @@ const AppWithNavigationState = connect(mapStateToProps)(AppContainer);
 export default class Root extends React.Component {
   render() {
     return (
-      <View style={{flex: 1, paddingTop: Expo.Constants.statusBarHeight}}>
+      <View
+        style={{ flex: 1,
+        paddingTop: Platform.OS === 'ios' ? 0 : Expo.Constants.statusBarHeight }}
+      >
         <Provider store={store}>
           <AppWithNavigationState />
         </Provider>
