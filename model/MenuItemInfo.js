@@ -3,10 +3,9 @@
  **/
 class MenuItemInfo {
   constructor(menuItemInfoJson) {
-    this._name = menuItemJson.name;
-    this._description = menuItemJson.description;
-    this._ingredients = ingredients;
-    this._imageUri = menuItemJson.image_uri;
+    this._name = menuItemInfoJson.name;
+    this._description = menuItemInfoJson.description;
+    this._imageUri = menuItemInfoJson.image_uri;
   }
 
   getName() {
@@ -15,10 +14,6 @@ class MenuItemInfo {
 
   getDescription() {
     return this._description;
-  }
-
-  getIngredients() {
-    return this._ingredientsl
   }
 
   getImageUri() {

@@ -1,15 +1,14 @@
 import React from 'react';
 import {
-  Text,
-  View,
-  Button,
   ListView
 } from 'react-native';
+import { Container, Content } from 'native-base';
 import { connect } from 'react-redux';
 import { loadRestaurantsFromDB, selectRestaurant } from '../actions';
 import RestaurantCard from '../components/RestaurantCard';
 
 class ResultsScreen extends React.Component {
+
   static navigationOptions = {
     title: 'Restaurants'
   };
@@ -22,11 +21,12 @@ class ResultsScreen extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    // nextProps are the next set of props that this component
-    // will be rendered with
-    // this.props is still the old set of props
-
     this.createDataSource(nextProps.results.restaurants);
+  }
+
+  onSelectRestaurant(restaurantId) {
+      this.props.selectRestaurant(restaurantId);
+      this.props.navigation.navigate('Restaurant');
   }
 
   createDataSource(restaurants) {
@@ -38,16 +38,24 @@ class ResultsScreen extends React.Component {
   }
 
   renderRow(restaurant) {
-    return <RestaurantCard restaurant={restaurant} />;
+    return (<RestaurantCard
+            restaurant={restaurant}
+            onRowPress={(restaurantId) => this.onSelectRestaurant(restaurantId)}
+    />);
   }
 
   render() {
+    console.log(this.props);
     return (
-      <ListView
-        enableEmptySections
-        dataSource={this.dataSource}
-        renderRow={this.renderRow}
-      />
+      <Container>
+        <Content>
+          <ListView
+            enableEmptySections
+            dataSource={this.dataSource}
+            renderRow={this.renderRow.bind(this)}
+          />
+        </Content>
+      </Container>
     );
   }
 }
@@ -58,4 +66,4 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps,
-  { loadRestaurantsFromDB, selectRestaurant })(ResultsScreen)
+  { loadRestaurantsFromDB, selectRestaurant })(ResultsScreen);

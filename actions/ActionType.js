@@ -25,7 +25,6 @@ export const LOAD_MENU = 'LOAD_MENU';
 export const SELECT_MENU_ITEM = 'SELECT_MENU_ITEM';
 export const ADD_MENU_ITEM = 'ADD_MENU_ITEM';
 export const REMOVE_MENU_ITEM = 'REMOVE_MENU_ITEM';
-export const UPDATE_MENU_ITEM = 'UPDATE_MENU_ITEM';
 
 // Cart
 export const LOAD_CART = 'LOAD_CART';

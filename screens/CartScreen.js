@@ -5,8 +5,10 @@ import {
   Button
 } from 'react-native';
 import { FontAwesome as Icon } from '@expo/vector-icons';
+import { connect } from 'react-redux';
+import { auth } from '../actions';
 
-export default class CartScreen extends React.Component {
+class CartScreen extends React.Component {
   static navigationOptions = {
     tabBarLabel: 'Cart',
     tabBarIcon: () => (<Icon name="shopping-cart" size={24} color="white" />)
@@ -25,3 +27,7 @@ export default class CartScreen extends React.Component {
     );
   }
 }
+
+const mapStateToProps = (state) => state;
+
+export default connect(mapStateToProps, { auth })(CartScreen);

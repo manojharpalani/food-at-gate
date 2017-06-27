@@ -51,25 +51,6 @@ class Database {
     }
 
     /**
-     * Returns list of all menu items for restaurant at input airport and terminal.
-     *
-     **/
-    static getMenuItems(airportId, terminalId, restaurantId, callback) {
-      let menuPath = "/menu/" + airportId + "_" + terminalId + "_" + restaurantId;
-      firebase.database().ref(menuPath).once('value', (snapshot) => {
-        var menuItems = [];
-        if (snapshot.val()) {
-          Object.keys(snapshot.val()).forEach(function(menuItemId) {
-          let menuItem = new MenuItem(menuItemId, snapshot.val()[menuItemId]);
-            logger.debug("Reading Menu Item ID " + menuItemId + " - " + menuItem);
-            menuItems.push(menuItem);
-          });
-        }
-        callback(menuItems);
-      });
-    }
-
-    /**
      * Saves user cart info.
      *
      **/

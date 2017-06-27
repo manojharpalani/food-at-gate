@@ -1,33 +1,31 @@
 import React, { Component } from 'react';
-import { Text, TouchableWithoutFeedback, View } from 'react-native';
-import { CardSection } from './common';
+import { TouchableOpacity } from 'react-native';
+import { Card, CardItem, Thumbnail, Text, Left, Body } from 'native-base';
 
 class RestaurantCard extends Component {
-  onRowPress() {
-  }
 
   render() {
+    const id = this.props.restaurant.getId();
     const name = this.props.restaurant.getName();
+    const category = this.props.restaurant.getCategory();
+    const iconImage = this.props.restaurant.getIconImage();
 
     return (
-      <TouchableWithoutFeedback onPress={this.onRowPress.bind(this)}>
-        <View>
-          <CardSection>
-            <Text style={styles.titleStyle}>
-              {name}
-            </Text>
-          </CardSection>
-        </View>
-      </TouchableWithoutFeedback>
+      <TouchableOpacity onPress={() => this.props.onRowPress(id)}>
+        <Card style={{ flex: 0 }}>
+          <CardItem>
+            <Left>
+              <Thumbnail source={{ uri: `${iconImage}` }} />
+              <Body>
+                <Text>{name}</Text>
+                <Text note>{category}</Text>
+              </Body>
+            </Left>
+          </CardItem>
+        </Card>
+      </TouchableOpacity>
     );
   }
 }
-
-const styles = {
-  titleStyle: {
-    fontSize: 18,
-    paddingLeft: 15
-  }
-};
 
 export default RestaurantCard;
