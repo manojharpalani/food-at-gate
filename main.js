@@ -11,7 +11,7 @@ import Logger from './common/Logger';
 import Environment from './common/Environment';
 import FirebaseProvider from "./firebase/firebase";
 import AppContainer from './containers/AppContainer';
-import { authSuccess, loadAirportsFromDB } from './actions';
+import { authSuccess, loadAirportsFromDB, synchronizeCartInfo } from './actions';
 import firebase from "firebase";
 
 class RootContainer extends React.Component {
@@ -30,15 +30,14 @@ class RootContainer extends React.Component {
       if (user) {
         Logger.debug("User successfully authenicated, Set user in state to switch view directly to main");
         Store.dispatch(authSuccess(user, 'Logged In!!'));
+        Logger.debug("Load airports from DB.");
+        Store.dispatch(loadAirportsFromDB());
+        Logger.debug("Synchronize cart info from DB.");
+        Store.dispatch(synchronizeCartInfo());
       } else {
         Logger.debug("User not authenicated, Switching view to Login");
       }
     });
-  }
-
-  loadAirportsFromDB() {
-    Logger.debug("Load airports from DB.");
-    Store.dispatch(loadAirportsFromDB());
   }
 
   async initialize() {
@@ -49,8 +48,6 @@ class RootContainer extends React.Component {
       FirebaseProvider.initialise();
       // Listen to auth updates
       this.authenticate();
-      // Load Airports supported
-      this.loadAirportsFromDB();
       // Cache assets - fonts, images etc
       await cacheAssetsAsync({
         images: [require('./assets/icons/app-icon.png')],

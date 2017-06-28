@@ -11,7 +11,7 @@ class CartInfo {
     if (lastUpdated) {
       this._lastUpdated = lastUpdated;
     } else {
-      this._lastUpdated = Date.now().toISOString();
+      this._lastUpdated = new Date().toISOString();
     }
   }
 

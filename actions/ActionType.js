@@ -23,11 +23,15 @@ export const SELECT_RESTAURANT = 'SELECT_RESTAURANT';
 // Menu
 export const LOAD_MENU = 'LOAD_MENU';
 export const SELECT_MENU_ITEM = 'SELECT_MENU_ITEM';
-export const ADD_MENU_ITEM = 'ADD_MENU_ITEM';
-export const REMOVE_MENU_ITEM = 'REMOVE_MENU_ITEM';
 
 // Cart
-export const LOAD_CART = 'LOAD_CART';
+export const LOAD_CART_INFO = 'LOAD_CART_INFO';
+export const SAVE_CART_INFO = 'SAVE_CART_INFO';
+export const LOAD_CART_ITEMS = 'LOAD_CART_ITEMS';
+export const ADD_CART_ITEM = 'ADD_CART_ITEM';
+export const ADD_CART_ITEM_SUCCESS = 'ADD_CART_ITEM_SUCCESS';
+export const REMOVE_CART_ITEM = 'REMOVE_CART_ITEM';
+export const REMOVE_CART_ITEM_SUCCESS = 'REMOVE_CART_ITEM_SUCCESS';
 export const CHECKOUT = 'CHECKOUT';
 export const CHECKOUT_SUCCESS = 'CHECKOUT_SUCCESS';
 export const CHECKOUT_FAILURE = 'CHECKOUT_SUCCESS';
@@ -35,7 +39,12 @@ export const CHECKOUT_FAILURE = 'CHECKOUT_SUCCESS';
 // Orders
 export const LOAD_ORDERS = 'LOAD_ORDERS';
 export const SELECT_ORDER = 'SELECT_ORDER';
+
+// Order Details
+export const LOAD_ORDER_DETAILS = 'LOAD_ORDER_DETAILS';
 export const CANCEL_ORDER = 'CANCEL_ORDER';
+export const CANCEL_ORDER_SUCCESS = 'CANCEL_ORDER_SUCCESS';
+export const CANCEL_ORDER_FAILURE = 'CANCEL_ORDER_FAILURE';
 
 // Profile
 export const LOAD_PROFILE = 'LOAD_PROFILE';

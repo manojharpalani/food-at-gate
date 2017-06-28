@@ -5,8 +5,9 @@ import {
 import { connect } from 'react-redux';
 import { Container, Content, Picker } from 'native-base';
 import { selectGate, loadAirportsFromDB,
-  loadTerminalsFromDB, loadGatesFromDB } from '../actions';
+  loadTerminalsFromDB, loadGatesFromDB, saveCartInfo } from '../actions';
 import { Card, CardSection, Button } from '../components/common';
+import { CartInfo } from '../model/CartInfo';
 
 class SearchScreen extends Component {
 
@@ -72,6 +73,10 @@ class SearchScreen extends Component {
   }
 
   search() {
+    // Save state to cart
+    this.props.saveCartInfo(new CartInfo(this.props.selectedAirport,
+    this.props.selectedTerminal,
+    this.props.selectedGate, 0));
     this.props.navigation.navigate('Results');
   }
 
@@ -151,4 +156,5 @@ const mapStateToProps = (state) => state.search;
 export default connect(mapStateToProps, { selectGate,
   loadAirportsFromDB,
   loadTerminalsFromDB,
-  loadGatesFromDB })(SearchScreen);
+  loadGatesFromDB,
+  saveCartInfo })(SearchScreen);

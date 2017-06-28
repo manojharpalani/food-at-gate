@@ -5,21 +5,10 @@
 import * as firebase from 'firebase';
 import { User } from '../model/User';
 import { UserProfile } from "../model/UserProfile";
-import { Airport } from "../model/Airport";
-import { Terminal } from "../model/Terminal";
-import { Gate } from "../model/Gate";
-import { Restaurant } from "../model/Restaurant";
-import { MenuItem } from "../model/MenuItem";
-import { MenuItemInfo } from "../model/MenuItemInfo";
-import { MenuItemOption } from "../model/MenuItemOption";
-import { Cart } from "../model/Cart";
-import { CartInfo } from "../model/CartInfo";
-import { CartItem } from "../model/CartItem";
 import { Order } from "../model/Order";
 import { OrderInfo } from '../model/OrderInfo';
 
 const logger = require('../common/Logger');
-const sortBy = require('sort-by');
 
 class Database {
 
@@ -47,84 +36,6 @@ class Database {
                 profile = UserProfile.fromJson(snapshot.val());
             }
             callback(profile)
-        });
-    }
-
-    /**
-     * Saves user cart info.
-     *
-     **/
-    static saveUserCartInfo(userId, cartInfo) {
-      let userCartInfoPath = "/cart/" + userId + "/info";
-      return firebase.database().ref(userCartInfoPath).set(cartInfo.toJson());
-    }
-
-    /**
-     * Registers a listener to user cart info updates.
-     *
-     **/
-    static listenUserCartInfo(userId, callback) {
-      let userCartInfoPath = "/cart/" + userId + "/info";
-      firebase.database().ref(userCartInfoPath).on('value', (snapshot) => {
-          var userCartInfo = "";
-          if (snapshot.val()) {
-              userCartInfo = CartInfo.fromJson(snapshot.val());
-          }
-          callback(userCartInfo)
-      });
-    }
-
-    /**
-     * - Insert cartItem to user's cart in database
-     * - Update user's cart info
-     **/
-    static addItemToUserCart(userId, cart, cartItem) {
-      let userCartItemsPath = "/cart/" + userId + "/" + "items";
-      let userCartInfoCountPath = "/cart/" + userId + "/" + "info/count";
-      // Create new entry for cartItem in DB
-      let newCartItemRef = firebase.database().ref(userCartItemsPath).push();
-      let userCartInfoCountRef = firebase.database().ref(userCartInfoCountPath);
-      // Save cartItem to database and increment count in cart info
-      newCartItemRef.set(cartItem.toJson(), function(error) {
-          if (error) {
-            logger.error('Add item to user cart failed abnormally!', error);
-          } else {
-            logger.debug('Successfully added item to users cart!');
-            userCartInfoCountRef.transaction(function(currentCount) {
-              if (currentCount) {
-                return currentCount + 1;
-              } else {
-                return 1;
-              }
-            });
-          }
-        });
-    }
-
-    /**
-     * Remove item from users cart.
-     *
-     **/
-    static removeItemFromUserCart(userId, cartItemId) {
-      let userCartItemPath = "/cart/" + userId + "/" + "items" + "/" + cartItemId;
-      let userCartInfoCountPath = "/cart/" + userId + "/" + "info/count";
-      // Create new entry for cartItem in DB
-      let userCartItemRef = firebase.database().ref(userCartItemPath);
-      let userCartInfoCountRef = firebase.database().ref(userCartInfoCountPath);
-      // Save cartItem to database and decrement count in cart info
-      userCartItemRef.remove(function(error) {
-          if (error) {
-            logger.error('Remove item from user cart failed abnormally!', error);
-          } else {
-            logger.debug('Successfully removed item to users cart!');
-            userCartInfoCountRef.transaction(function(currentCount) {
-              if (currentCount) {
-                return currentCount - 1;
-              } else {
-                return 0;
-              }
-            });
-          }
         });
     }
 

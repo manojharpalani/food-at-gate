@@ -1,9 +1,7 @@
 import firebase from 'firebase';
 import { createAction } from 'redux-actions';
 import { LOAD_MENU,
-  SELECT_MENU_ITEM,
-  ADD_MENU_ITEM,
-  REMOVE_MENU_ITEM } from './ActionType';
+  SELECT_MENU_ITEM } from './ActionType';
 
 import { MenuItem } from '../model';
 
@@ -11,8 +9,6 @@ const logger = require('../common/Logger');
 
 export const loadMenu = createAction(LOAD_MENU, menuItems => menuItems);
 export const selectMenuItem = createAction(SELECT_MENU_ITEM, menuItem => menuItem);
-export const addMenuItem = createAction(ADD_MENU_ITEM, cartItem => cartItem);
-export const removeMenuItem = createAction(REMOVE_MENU_ITEM, cartItem => cartItem);
 
 export function loadMenuFromDB(airportId, terminalId, restaurantId) {
   return (dispatch) => {
@@ -29,12 +25,4 @@ export function loadMenuFromDB(airportId, terminalId, restaurantId) {
       dispatch(loadMenu(menuItems));
     });
   };
-}
-
-export function addMenuItemToCart() {
-
-}
-
-export function removeMenuItemFromCart() {
-
 }

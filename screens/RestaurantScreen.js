@@ -7,8 +7,7 @@ import { connect } from 'react-redux';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import MenuItemCard from '../components/MenuItemCard';
 import RestaurantDetailsCard from '../components/RestaurantDetailsCard';
-import { loadMenuFromDB, selectMenuItem,
-  addMenuItemToCart, removeMenuItemFromCart } from '../actions';
+import { loadMenuFromDB, selectMenuItem } from '../actions';
 import MenuItemPopUp from '../components/MenuItemPopUp';
 
 const _ = require('lodash');
@@ -113,6 +112,4 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps,
   { loadMenuFromDB,
-    selectMenuItem,
-    addMenuItemToCart,
-    removeMenuItemFromCart })(RestaurantScreen);
+    selectMenuItem })(RestaurantScreen);
