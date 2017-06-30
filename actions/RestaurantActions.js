@@ -19,6 +19,7 @@ export function loadMenuFromDB(airportId, terminalId, restaurantId) {
         Object.keys(snapshot.val()).forEach((menuItemId) => {
         const menuItem = new MenuItem(menuItemId, snapshot.val()[menuItemId]);
           logger.debug(`Reading Menu Item ID ${menuItemId} -  ${menuItem}`);
+          logger.debug(JSON.stringify(snapshot.val()));
           menuItems.push(menuItem);
         });
       }

@@ -1,16 +1,15 @@
 import React from 'react';
 import {
-  ListView, View, Text
+  ListView, View, Text, Alert
 } from 'react-native';
 import { Container, Content, Spinner, Button } from 'native-base';
 import { connect } from 'react-redux';
 import PopupDialog, { SlideAnimation, DialogTitle } from 'react-native-popup-dialog';
 import MenuItemCard from '../components/MenuItemCard';
 import RestaurantDetailsCard from '../components/RestaurantDetailsCard';
-import { loadMenuFromDB, selectMenuItem } from '../actions';
+import { loadMenuFromDB, selectMenuItem, addItem } from '../actions';
 import MenuItemPopUp from '../components/MenuItemPopUp';
-
-const _ = require('lodash');
+import { CartItem } from '../model/CartItem';
 
 class RestaurantScreen extends React.Component {
   static navigationOptions = {
@@ -25,7 +24,7 @@ class RestaurantScreen extends React.Component {
   componentWillMount() {
     this.props.loadMenuFromDB(this.props.search.selectedAirport,
        this.props.search.selectedTerminal,
-       this.props.results.selectedRestaurant);
+       this.props.results.selectedRestaurant.getId());
 
     this.createDataSource(this.props.restaurant.menuItems);
   }
@@ -36,6 +35,24 @@ class RestaurantScreen extends React.Component {
 
   onSelectMenuItem(menuItem) {
       this.props.selectMenuItem(menuItem);
+      const cartItem = new CartItem('',
+        this.props.results.selectedRestaurant.getName(),
+        menuItem.getInfo().getName(),
+        menuItem.getInfo().getImageUri(),
+        menuItem.getOptions()[0].getName(),
+        menuItem.getOptions()[0].getPrice(),
+        1,
+        '');
+
+      Alert.alert(
+        'Add Item',
+        'Do you wish to add item to your cart?',
+        [
+          { text: 'Yes', onPress: () => this.props.addItem(cartItem) },
+          { text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+        ],
+        { cancelable: false }
+        );
       //FIXME: Dialog doesnt show up, probably some style issue.
       // this.popupDialog.show();
   }
@@ -49,10 +66,8 @@ class RestaurantScreen extends React.Component {
     const { menuItems } = this.props.restaurant;
 
     if (selectedRestaurant && restaurants && menuItems) {
-      const restaurant = _.find(restaurants, { _id: `${selectedRestaurant}` });
       return (
             <View>
-
               <PopupDialog
                 dialogTitle={<DialogTitle title="Add To Cart" />}
                 ref={(popupDialog) => { this.popupDialog = popupDialog; }}
@@ -64,7 +79,7 @@ class RestaurantScreen extends React.Component {
                 />
               </PopupDialog>
 
-              <RestaurantDetailsCard restaurant={restaurant} />
+              <RestaurantDetailsCard restaurant={selectedRestaurant} />
               <ListView
                 enableEmptySections
                 dataSource={this.dataSource}
@@ -112,4 +127,5 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps,
   { loadMenuFromDB,
-    selectMenuItem })(RestaurantScreen);
+    selectMenuItem,
+    addItem })(RestaurantScreen);

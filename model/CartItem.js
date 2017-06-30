@@ -2,25 +2,35 @@
  * Class to hold the data of an item in the cart or order.
  **/
 class CartItem {
-  constructor(restaurantId, itemId, optionId, price, quantity, notes) {
-    this._restaurantId = restaurantId;
-    this._itemId = itemId;
-    this._optionId = optionId;
+  constructor(id, restaurant, item, imageUri, option, price, quantity, notes) {
+    this._id = id;
+    this._restaurant = restaurant;
+    this._item = item;
+    this._imageUri = imageUri;
+    this._option = option;
     this._price = price;
     this._quantity = quantity;
     this._notes = notes;
   }
-
-  getRestaurantId() {
-    return this._restaurantId;
+  
+  getId() {
+      return this._id;
   }
 
-  getItemId() {
-    return this._itemId;
+  getRestaurant() {
+    return this._restaurant;
   }
 
-  getOptionId() {
-    return this._optionId;
+  getItem() {
+    return this._item;
+  }
+
+  getImageUri() {
+    return this._imageUri;
+  }
+
+  getOption() {
+    return this._option;
   }
 
   getPrice() {
@@ -35,10 +45,12 @@ class CartItem {
     return this._notes;
   }
 
-  static fromJson(cartItemJson) {
-    return new CartItem(cartItemJson.restaurantId,
-                        cartItemJson.itemId,
-                        cartItemJson.optionId,
+  static fromJson(id, cartItemJson) {
+    return new CartItem(id,
+                        cartItemJson.restaurant,
+                        cartItemJson.item,
+                        cartItemJson.imageUri,
+                        cartItemJson.option,
                         cartItemJson.price,
                         cartItemJson.quantity,
                         cartItemJson.notes);
@@ -46,9 +58,10 @@ class CartItem {
 
   toJson() {
     return {
-      restaurantId: this._restaurantId,
-      itemId: this._itemId,
-      optionId: this._optionId,
+      restaurant: this._restaurant,
+      item: this._item,
+      imageUri: this._imageUri,
+      option: this._option,
       price: this._price,
       quantity: this._quantity,
       notes: this._notes

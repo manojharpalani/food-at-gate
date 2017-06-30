@@ -6,9 +6,9 @@ import { LOAD_CART_INFO,
   ADD_CART_ITEM,
   ADD_CART_ITEM_SUCCESS,
   REMOVE_CART_ITEM,
+  REMOVE_ALL_CART_ITEMS,
   REMOVE_CART_ITEM_SUCCESS } from './ActionType';
 import { CartInfo, CartItem } from '../model';
-import { selectAirport, selectTerminal, selectGate, loadTerminalsFromDB, loadGatesFromDB } from './SearchActions';
 
 const logger = require('../common/Logger');
 
@@ -72,6 +72,13 @@ export function saveCartInfo(cartInfo) {
   return { type: SAVE_CART_INFO };
 }
 
+export function removeAllCartItems() {
+  const userId = firebase.auth().currentUser.uid;
+  const userCartItemsPath = `/cart/${userId}/items`;
+  firebase.database().ref(userCartItemsPath).remove();
+  return { type: REMOVE_ALL_CART_ITEMS };
+}
+
 export function synchronizeCartInfo() {
   const userId = firebase.auth().currentUser.uid;
   const userCartInfoPath = `/cart/${userId}/info`;
@@ -94,7 +101,7 @@ export function synchronizeCartItems() {
     firebase.database().ref(userCartItemsPath).on('child_added', (snapshot) => {
       let cartItem = '';
       if (snapshot.val()) {
-          cartItem = CartItem.fromJson(snapshot.val());
+          cartItem = CartItem.fromJson(snapshot.key, snapshot.val());
       }
       dispatch(addItemSuccess(cartItem));
     });
@@ -102,7 +109,7 @@ export function synchronizeCartItems() {
     firebase.database().ref(userCartItemsPath).on('child_removed', (snapshot) => {
       let cartItem = '';
       if (snapshot.val()) {
-          cartItem = CartItem.fromJson(snapshot.val());
+          cartItem = CartItem.fromJson(snapshot.key, snapshot.val());
       }
       dispatch(removeItemSuccess(cartItem));
     });

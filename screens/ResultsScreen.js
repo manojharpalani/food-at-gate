@@ -24,8 +24,8 @@ class ResultsScreen extends React.Component {
     this.createDataSource(nextProps.results.restaurants);
   }
 
-  onSelectRestaurant(restaurantId) {
-      this.props.selectRestaurant(restaurantId);
+  onSelectRestaurant(restaurant) {
+      this.props.selectRestaurant(restaurant);
       this.props.navigation.navigate('Restaurant');
   }
 
@@ -40,7 +40,7 @@ class ResultsScreen extends React.Component {
   renderRow(restaurant) {
     return (<RestaurantCard
             restaurant={restaurant}
-            onRowPress={(restaurantId) => this.onSelectRestaurant(restaurantId)}
+            onRowPress={(selectedRestaurant) => this.onSelectRestaurant(selectedRestaurant)}
     />);
   }
 

@@ -2,7 +2,7 @@ import { LOAD_RESTAURANTS, SELECT_RESTAURANT } from '../actions/ActionType';
 
 const initialState = {
   restaurants: [],
-  selectedRestaurant: ''
+  selectedRestaurant: {}
 };
 
 export default function results(state = initialState, action) {
@@ -11,7 +11,7 @@ export default function results(state = initialState, action) {
       return {
         ...state,
         restaurants: action.payload,
-        selectedRestaurant: ''
+        selectedRestaurant: {}
       };
     case SELECT_RESTAURANT:
       return {

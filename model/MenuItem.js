@@ -8,9 +8,13 @@ class MenuItem {
   constructor(id, menuItemJson) {
     this._id = id;
     this._info = new MenuItemInfo(menuItemJson.info);
-    this._options = Object.keys(menuItemJson.options).forEach(
-      (menuItemOptionId) => new MenuItemOption(menuItemOptionId,
-        menuItemJson.options[menuItemOptionId]));
+    this._options = [];
+    Object.keys(menuItemJson.options).forEach(
+      (menuItemOptionId) => {
+        const menuItemOption = new MenuItemOption(menuItemOptionId,
+        menuItemJson.options[menuItemOptionId]);
+        this._options.push(menuItemOption);
+      });
   }
 
   getId() {

@@ -24,6 +24,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-17.0.0.tar.gz",
     "react-native-material-bottom-navigation": "^0.5.1",
     "react-native-modal": "^2.4.0",
+    "react-native-modal-datetime-picker": "^4.7.0",
     "react-native-popup-dialog": "^0.9.29",
     "react-native-textinput-effects": "^0.3.1",
     "react-navigation": "^1.0.0-beta.11",

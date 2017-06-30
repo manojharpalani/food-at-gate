@@ -55,34 +55,6 @@ class Database {
     }
 
     /**
-     * Save order for user in the database.
-     * - Generate orderId
-     * - Save order info and items in database
-     * - Invoke callback with order
-     *
-     **/
-    static createOrder(userId, order, callback) {
-      let userOrderPath = "/order/" + userId;
-      let newOrderRef = firebase.database().ref(userOrderPath).push();
-      let userOrderCountPath = userOrderPath + "/" + count;
-      let userOrderCount = firebase.database().ref(userOrderCountPath)
-
-      return newOrderRef.set(order.toJson()).onComplete(function(error) {
-        if (error) {
-          logger.error('Error while creating order!', error);
-        } else {
-          userOrderCount.transaction(function(currentCount) {
-            if (currentCount) {
-              return currentCount + 1;
-            } else {
-              return 0;
-            }
-          });
-        }
-      });
-    }
-
-    /**
      * Save payment info to users order in database.
      *
      **/

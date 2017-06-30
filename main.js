@@ -11,7 +11,7 @@ import Logger from './common/Logger';
 import Environment from './common/Environment';
 import FirebaseProvider from "./firebase/firebase";
 import AppContainer from './containers/AppContainer';
-import { authSuccess, loadAirportsFromDB, synchronizeCartInfo } from './actions';
+import { authSuccess, loadAirportsFromDB, synchronizeCartInfo, synchronizeCartItems } from './actions';
 import firebase from "firebase";
 
 class RootContainer extends React.Component {
@@ -34,6 +34,8 @@ class RootContainer extends React.Component {
         Store.dispatch(loadAirportsFromDB());
         Logger.debug("Synchronize cart info from DB.");
         Store.dispatch(synchronizeCartInfo());
+        Logger.debug("Synchronize cart items from DB.");
+        Store.dispatch(synchronizeCartItems());
       } else {
         Logger.debug("User not authenicated, Switching view to Login");
       }

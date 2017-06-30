@@ -11,7 +11,7 @@ class RestaurantCard extends Component {
     const iconImage = this.props.restaurant.getIconImage();
 
     return (
-      <TouchableOpacity onPress={() => this.props.onRowPress(id)}>
+      <TouchableOpacity onPress={() => this.props.onRowPress(this.props.restaurant)}>
         <Card style={{ flex: 0 }}>
           <CardItem>
             <Left>

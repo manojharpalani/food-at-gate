@@ -9,7 +9,7 @@ export const loadRestaurants = createAction(LOAD_RESTAURANTS,
   restaurants => restaurants);
 
 export const selectRestaurant = createAction(SELECT_RESTAURANT,
-  restaurantId => restaurantId);
+  restaurant => restaurant);
 
 export function loadRestaurantsFromDB(airportId, terminalId) {
   return (dispatch) => {

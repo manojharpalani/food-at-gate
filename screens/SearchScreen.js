@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import {
-  Text
+  Text, Button
 } from 'react-native';
 import { connect } from 'react-redux';
 import { Container, Content, Picker } from 'native-base';
 import { selectGate, loadAirportsFromDB,
-  loadTerminalsFromDB, loadGatesFromDB, saveCartInfo } from '../actions';
-import { Card, CardSection, Button } from '../components/common';
+  loadTerminalsFromDB, loadGatesFromDB, saveCartInfo, removeAllCartItems } from '../actions';
 import { CartInfo } from '../model/CartInfo';
 
 class SearchScreen extends Component {
@@ -77,6 +76,7 @@ class SearchScreen extends Component {
     this.props.saveCartInfo(new CartInfo(this.props.selectedAirport,
     this.props.selectedTerminal,
     this.props.selectedGate, 0));
+    this.props.removeAllCartItems();
     this.props.navigation.navigate('Results');
   }
 
@@ -85,8 +85,6 @@ class SearchScreen extends Component {
     return (
       <Container>
         <Content>
-          <Card>
-            <CardSection style={{ flexDirection: 'column' }}>
               <Text style={styles.pickerTextStyle}> Airport </Text>
               <Picker
                 supportedOrientations={['portrait', 'landscape']}
@@ -99,9 +97,7 @@ class SearchScreen extends Component {
               >
               { this.getAirportPickerItems() }
               </Picker>
-           </CardSection>
 
-           <CardSection style={{ flexDirection: 'column' }}>
              <Text style={styles.pickerTextStyle}> Terminal </Text>
              <Picker
                supportedOrientations={['portrait', 'landscape']}
@@ -115,9 +111,7 @@ class SearchScreen extends Component {
              >
              { this.getTerminalPickerItems() }
              </Picker>
-          </CardSection>
 
-          <CardSection style={{ flexDirection: 'column' }}>
             <Text style={styles.pickerTextStyle}> Gate </Text>
             <Picker
               supportedOrientations={['portrait', 'landscape']}
@@ -130,14 +124,11 @@ class SearchScreen extends Component {
             >
             { this.getGatePickerItems() }
             </Picker>
-         </CardSection>
-         {
-             this.props.selectedGate !== '' &&
-             <CardSection>
-              <Button onPress={() => this.search()}> Next </Button>
-             </CardSection>
-         }
-        </Card>
+
+           {
+               this.props.selectedGate !== '' &&
+               <Button info onPress={() => this.search()} title='Search'/>
+           }
       </Content>
     </Container>
     );
@@ -157,4 +148,5 @@ export default connect(mapStateToProps, { selectGate,
   loadAirportsFromDB,
   loadTerminalsFromDB,
   loadGatesFromDB,
-  saveCartInfo })(SearchScreen);
+  saveCartInfo,
+  removeAllCartItems })(SearchScreen);

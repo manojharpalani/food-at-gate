@@ -25,7 +25,7 @@ class Order {
   static fromJson(orderJson) {
     var items = new HashMap();
     Object.keys(orderJson.items).forEach(function(cartItemId) {
-      items.set(cartItemId, CartItem.fromJson(orderJson.items[cartItemId]));
+      items.set(cartItemId, CartItem.fromJson(cartItemId, orderJson.items[cartItemId]));
     });
     return new Order(OrderInfo.fromJson(orderJson.info),
                      items,
